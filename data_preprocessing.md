@@ -1,10 +1,10 @@
-the method based on Multi-attribute learning for Pedestrian Attribute Recognition in Surveillance Scenarios.
-
-Keras + VGG16:
-
-data preprocessing:
+#data preprocessing:
 
 Extract Gender images from whole RAP dataset
+
+note:
+
+when conducting a deep learning project, most time we have spent on data preprocessing. this file tells how to extract relevant data from database. and then do some preprocessing.
 
 # code
 ```
