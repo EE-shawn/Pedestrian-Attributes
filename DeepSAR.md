@@ -213,3 +213,15 @@ for i, (a, b) in enumerate(zip(gender_labels, names)):
  
  ```
   
+ # batch modify image name
+ ```
+ import os
+ 
+ image_path = r'D:\Attris\Data\PA-100K\gender\train\female'
+ file_list  = os.listdir(image_path)
+ i = 0
+ for item in file_list:
+    os.rename(os.path.join(image_path,item),os.path.join(image_path,('female'+str(i)+'.jpg')))
+    i+=1
+    
+ ```
