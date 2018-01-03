@@ -4,7 +4,7 @@ Data:
 PA100K + RAP(part)
 
 Data Structure:
-![File_structure](./Pedestrian-Attributes/Images/File_structure.PNG)
-![File_structure](./Pedestrian-Attributes/Images/File_structure.PNG)
+![File_structure](./Images/File_structure.PNG)
+![File_structure](./Images/File_structure2.PNG)
 
 1.Fsirt time
