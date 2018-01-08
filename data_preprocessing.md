@@ -225,3 +225,84 @@ for i, (a, b) in enumerate(zip(gender_labels, names)):
     i+=1
     
  ```
+# batch draw bounding box
+
+```
+
+import time
+import datetime
+import numpy as np
+import pandas as pd
+import h5py
+import json
+import shutil
+import cv2
+import scipy.io as sio
+import json
+import warnings
+
+
+cd D:\Attris\Data\RAP_annotation
+D:\Attris\Data\RAP_annotation
+
+matfile = r'RAP_annotation.mat'
+mat = sio.loadmat(matfile)
+mat = mat['RAP_annotation']
+
+
+mat = mat[0,0]
+labels = mat[1]
+attri_eng = mat[3]
+names = mat[5]
+position = mat[4]
+
+attri_eng = [str(atr[0][0]) for atr in attri_eng]
+names = [str(name[0][0]) for name in names]
+
+attri_eng_json = json.dumps({i:s for i,s in enumerate(attri_eng)})
+names_encode = [name.encode() for name in names]
+
+position_copy = np.copy(position)
+
+position_x = position_copy[:,0]
+
+position_y = position_copy[:,1]
+
+position_copy[:,4] = position_copy[:,4] - position_x
+
+position_copy[:,8] = position_copy[:,8] - position_x
+
+position_copy[:,12] = position_copy[:,12] - position_x
+
+position_copy[:,5] = position_copy[:,5] - position_y
+
+position_copy[:,9] = position_copy[:,9] - position_y
+
+position_copy[:,13] = position_copy[:,13] - position_y
+
+position_copy[:,[0,1]]=0
+
+position_copy[position_copy < 0] = 0
+
+position_final = position_copy[:,[4,5,6,7,8,9,10,11,12,13,14,15]]
+
+savename = matfile.split('.')[0] + '-with_position' + '.hdf5'
+
+with h5py.File(savename,'w') as f:
+   f.create_dataset(name='attri_eng',data=attri_eng_json)
+   f.create_dataset(name='names',data=names_encode)
+   f.create_dataset(name='labels',data=labels)
+   f.create_dataset(name='position',data=position)
+   f.create_dataset(name='position_modified',data=position_copy)
+   f.create_dataset(name='position_final',data=position_final)
+   f.flush()
+   
+for i in range(5,41585):
+    image_path = basedir + '\img_'+ str(i) + '.png'
+    orig = cv2.imread(image_path)
+    orig = cv2.rectangle(orig,(position_final[i][0],position_final[i][1]),(position_final[i][0] + position_final[i][2],position_final[i][1] + position_final[i][3]),(255,0,0),2)
+    orig = cv2.rectangle(orig,(position_final[i][4],position_final[i][5]),(position_final[i][4] + position_final[i][6],position_final[i][5] + position_final[i][7]),(0,255,0),2)
+    orig = cv2.rectangle(orig,(position_final[i][8],position_final[i][9]),(position_final[i][8] + position_final[i][10],position_final[i][9] + position_final[i][11]),(0,0,255),2)    
+    cv2.imwrite(image_path,orig)
+    
+```
