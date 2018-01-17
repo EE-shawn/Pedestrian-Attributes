@@ -1,15 +1,11 @@
 # preprocessing Google Open Images 
 
-# select images including person and its attributes
+# 处理validation数据部分
 ```
 import csv
 import os
 import shutil
-
-with open('person_attributes.csv','r',encoding='utf-8') as myFile :
-    csvfr = csv.reader(myFile)
-    column = [row[0] for row in csvfr]
-    
+   
 with open(r'D:\TF_Try\tensorflow_models\research\oid_argumented\data_csv\validation\annotations-human-bbox.csv','r',encoding='utf-8') as myFile :
     csvfr = csv.reader(myFile)
     row_val = [row for row in csvfr]
@@ -24,15 +20,40 @@ with open(r'D:\TF_Try\tensorflow_models\research\oid_argumented\data_csv\validat
     
 new_column = column[1:]  
 
+
 for i in new_column:
    src = os.path.join(r'D:\TF_Try\tensorflow_models\research\oid\raw_images_validation',str(i) +'.jpg')
    if os.path.exists(src):
         shutil.copy2(src,dst)
    else:
        pass
-       
 ```
 
+读取文件夹中的所有图片
+```
+import glob as gb
+
+img_path = gb.glob("\\*.jpg")
+
+img_path = gb.glob('*.jpg')
+
+img_path = gb.glob('*')
+
+for item in column_0_val_test_num:
+    if item + '.jpg' in img_path:
+        pass
+    else:
+        print(item)
+        
+2675713441079e56
+1625307983409413
+5626576622065547
+7037237751101327
+70771453072e0150
+
+```
+
+# 处理test数据部分
 ```
 import csv
 import os
@@ -41,15 +62,37 @@ import pandas as pd
 
 with open(r'D:\TF_Try\tensorflow_models\research\oid_argumented\data_csv\validation\person_attributes.csv','r',encoding='utf-8') as myFile :
     csvfr = csv.reader(myFile)
-    column2 = [row[2] for row in csvfr]
-column2_new = column2[1:]
+    column = [row[2] for row in csvfr]
+column = column[1:]
 
-column2_new_no_duplicate = list(set(column2_new))
+column_no_duplicate = list(set(column))
 
+row_selected = []
+
+with open(r'D:\TF_Try\tensorflow_models\research\oid_argumented\data_csv\test\annotations-human-bbox.csv','r',encoding='utf-8') as myFile_test :
+    csvfr_test = csv.reader(myFile_test)
+    for row in csvfr_test:
+        for element in column_no_duplicate:
+            if element == row[2]:
+                row_selected.append(row)
+
+with open(r'D:\TF_Try\tensorflow_models\research\oid_argumented\data_csv\validation\person_attributes.csv','r',encoding='utf-8') as myFile :
+    csvfr = csv.reader(myFile)
+    row = [row for row in csvfr]
+    
 row_test.insert(0,rows_test[0])
 
-test = pd.DataFrame(data = row_test)
+test = pd.DataFrame(data = row_test)  
 
 test.to_csv('pedestrian_attributes_test.csv')
+
+#计算某个类number
+count = 0
+for item in class_lables:
+    if item =='/m/01s55n':
+        count +=1
+    else:
+        pass
+print(count)
 
 ```
