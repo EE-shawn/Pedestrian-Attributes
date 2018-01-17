@@ -110,28 +110,55 @@ for i,item in enumerate(new_column):
         pass
     else:
         print(i,item)
-        
-3665 5.64146E+15.jpg
-4529 2.32715E+15.jpg
-6395 8.1569E+15.jpg
-8226 4.23019E+15.jpg
-10256 2.27155E+15.jpg
-11383 1.53561E+15.jpg
-11967 2.50E+23.jpg
-12801 4.33634E+15.jpg
-13107 7.53E+43.jpg
-13498 2.42E+60.jpg
-14015 2.96E+17.jpg
-15752 1.26003E+15.jpg
-21272 6.03389E+15.jpg
-22447 5.03332E+14.jpg
-23303 5.11E+49.jpg
-23721 9.93E+13.jpg
-23887 7.68729E+15.jpg
-28594 3.18219E+15.jpg
-29497 8.96598E+15.jpg
-30924 2.43009E+15.jpg
-32490 3.76291E+15.jpg
-32993 2.46E+101.jpg
-33320 5.63965E+15.jpg
+```
+# 处理test数据部分2
+```
+import csv
+import os
+import shutil
+import pandas as pd
+
+with open(r'D:\TF_Try\tensorflow_models\research\oid_argumented\data_csv\validation\person_attributes.csv','r',encoding='utf-8') as myFile :
+    csvfr = csv.reader(myFile)
+    column = [row[2] for row in csvfr]
+column = column[1:]
+
+column_no_duplicate = list(set(column))
+with open(r'D:\TF_Try\tensorflow_models\research\oid_argumented\data_csv\test\annotations-human-bbox.csv','r',encoding='utf-8') as myFile_test :
+    csvfr_test = csv.reader(myFile_test)
+    for row in csvfr_test:
+        for element in column_no_duplicate:
+            if element == row[2]:
+                row_selected.append(row)
+                
+row_selected = []
+with open(r'D:\TF_Try\tensorflow_models\research\oid_argumented\data_csv\test\annotations-human-bbox.csv','r',encoding='utf-8') as myFile_test :
+    csvfr_test = csv.reader(myFile_test)
+    for row in csvfr_test:
+        for element in column_no_duplicate:
+            if element == row[2]:
+                row_selected.append(row)
+
+with open(r'D:\TF_Try\tensorflow_models\research\oid_argumented\data_csv\validation\person_attributes.csv','r',encoding='utf-8') as myFile :
+    csvfr = csv.reader(myFile)
+    row = [row for row in csvfr]
+    
+with open(r'D:\TF_Try\tensorflow_models\research\oid_argumented\data_csv\test\pedestrian_attributes_test.csv','r',encoding='utf-8') as myFile :
+    csvfr = csv.reader(myFile)
+    column_img_test = [row[1] for row in csvfr]
+    
+import glob as gb
+img_path = gb.glob('*.jpg')
+
+column_no_duplicate = list(set(column_img_test))
+
+for i,item in enumerate(column_no_duplicate):
+    if item +'.jpg' in img_path:
+        pass
+    else:
+        dst = r'D:\TF_Try\tensorflow_models\research\oid_argumented\data\test'
+        if item  =='\ufeffImageID':
+            pass
+        else:
+            shutil.copy2(os.path.join(r'D:\TF_Try\tensorflow_models\research\oid\raw_images_test',str(item) +'.jpg'),dst)
 ```
