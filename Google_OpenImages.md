@@ -143,6 +143,10 @@ with open(r'D:\TF_Try\tensorflow_models\research\oid_argumented\data_csv\validat
     csvfr = csv.reader(myFile)
     row = [row for row in csvfr]
     
+head = row[0]
+test = pd.DataFrame(data = row_selected, columns = head)
+test.to_csv('pedestrian_attributes_test.csv',encoding = "utf-8")   
+
 with open(r'D:\TF_Try\tensorflow_models\research\oid_argumented\data_csv\test\pedestrian_attributes_test.csv','r',encoding='utf-8') as myFile :
     csvfr = csv.reader(myFile)
     column_img_test = [row[1] for row in csvfr]
