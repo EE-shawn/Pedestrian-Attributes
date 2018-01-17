@@ -10,6 +10,18 @@ with open('person_attributes.csv','r',encoding='utf-8') as myFile :
     csvfr = csv.reader(myFile)
     column = [row[0] for row in csvfr]
     
+with open(r'D:\TF_Try\tensorflow_models\research\oid_argumented\data_csv\validation\annotations-human-bbox.csv','r',encoding='utf-8') as myFile :
+    csvfr = csv.reader(myFile)
+    row_val = [row for row in csvfr]
+    
+with open(r'D:\TF_Try\tensorflow_models\research\oid_argumented\data_csv\validation\annotations-human-bbox.csv','r',encoding='utf-8') as myFile :
+    csvfr = csv.reader(myFile)
+    column_0_val = [row[0] for row in csvfr]
+    
+with open(r'D:\TF_Try\tensorflow_models\research\oid_argumented\data_csv\validation\annotations-human-bbox.csv','r',encoding='utf-8') as myFile :
+    csvfr = csv.reader(myFile)
+    column_2_val = [row[2] for row in csvfr]
+    
 new_column = column[1:]  
 
 for i in new_column:
